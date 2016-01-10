@@ -60,7 +60,7 @@ export class Generator {
    *
    * The generated bits are well-suited for use with bitwise operators.
    *
-   * @param  {number} n = undefined If provided, generates that many pseudo-random numbers. Generates a single number by default.
+   * @param  {number} n = null      If provided, generates that many pseudo-random numbers. Generates a single number by default.
    * @return {number|number[]}      The next random number, or an array of next pseudo-random numbers.
    *
    * @example
@@ -69,22 +69,22 @@ export class Generator {
    * r & 0b0100 > 0 // false
    * r & 0b1000 > 0 // true
    */
-  randomBits (n = undefined) {
-    if (n === undefined) return this._xxh.digest()
+  randomBits (n = null) {
+    if (n === null) return this._xxh.digest()
     else return new Array(n).fill(0).map(() => this._xxh.digest())
   }
   /**
    * Generate the next single pseudo-random number or an array thereof.
    *
-   * @param  {number} n = undefined If provided, generates that many pseudo-random numbers. Generates a single number by default.
+   * @param  {number} [n]           If provided, generates that many pseudo-random numbers. Generates a single number by default.
    * @return {number|number[]}      The next random number, or an array of next pseudo-random numbers.
    *
    * @example
    * let g = new Generator('foo')
    * g.random() // 0.8830422074261686
    */
-  random (n = undefined) {
-    if (n === undefined) return (this.randomBits(n) >>> 0) / UINT32_MAX_VALUE
+  random (n = null) {
+    if (n === null) return (this.randomBits(n) >>> 0) / UINT32_MAX_VALUE
     else return this.randomBits(n).map((x) => (x >>> 0) / UINT32_MAX_VALUE)
   }
   /**
@@ -150,10 +150,10 @@ export function * randomGenerator (seed, offset = 0) {
  * @see    {@link Generator#randomBits}
  * @param  {string|ArrayBuffer} seed Seed that the pseudo-random numbers are generated from.
  * @param  {number} offset = 0       Generates a different batch of pseudo-random numbers from the seed.
- * @param  {number} n = undefined    If provided, generates that many pseudo-random numbers. Generates a single number by default.
+ * @param  {number} n = null      If provided, generates that many pseudo-random numbers. Generates a single number by default.
  * @return {number|number[]}         The next random number, or an array of next pseudo-random numbers.
  */
-export function randomBits (seed, offset = 0, n = undefined) {
+export function randomBits (seed, offset = 0, n = null) {
   return new Generator(seed, offset).randomBits(n)
 }
 
@@ -170,10 +170,10 @@ export function randomBits (seed, offset = 0, n = undefined) {
  * @see    {@link Generator#random}
  * @param  {string|ArrayBuffer} seed Seed that the pseudo-random numbers are generated from.
  * @param  {number} offset = 0       Generates a different batch of pseudo-random numbers from the seed.
- * @param  {number} n = undefined    If provided, generates that many pseudo-random numbers. Generates a single number by default.
+ * @param  {number} n = null      If provided, generates that many pseudo-random numbers. Generates a single number by default.
  * @return {number|number[]}         The next random number, or an array of next pseudo-random numbers.
  */
-export function random (seed, offset = 0, n = undefined) {
+export function random (seed, offset = 0, n = null) {
   return new Generator(seed, offset).random(n)
 }
 
