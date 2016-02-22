@@ -1,3 +1,2 @@
 files:
   - prng-xxhash.js
-packageJson: package.json
